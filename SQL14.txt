@@ -1,0 +1,76 @@
+﻿信息系统与数据库技术练习14答题卡
+
+班级：     19信息管理2班
+姓名：     黄弘力
+学号：     20190307224
+
+注：请将答案放置在序号下方。*/
+
+（一）
+1.
+USE PROJECT
+2.
+CREATE PROC p_ep1
+AS
+SELECT Employee.Did,EP.Eid,Ename,Esex,Project.Pid,Pname,Wages
+FROM Employee JOIN Project JOIN EP
+ON Project.Pid=EP.Pid
+ON Employee.Eid=EP.Eid
+3.
+EXEC p_ep1
+4.
+CREATE PROC p_ep2
+@WorkDate VARCHAR(4),@Did VARCHAR(4)
+AS
+SELECT Employee.Did,EP.Eid,Ename,Esex,Project.Pid,Pname,Wages
+FROM Employee JOIN Project JOIN EP
+ON Project.Pid=EP.Pid
+ON Employee.Eid=EP.Eid
+WHERE WorkDate=@WorkDate AND Did=@Did
+5.
+EXEC p_ep2 @WorkDate='1990-07-01 00:00:00.000',@Did='D001'
+6.
+CREATE PROC p_ep3
+@Dname VARCHAR(20)='财务部'
+AS
+SELECT Department.Did,Dname,Eid,Ename,Esex,WorkDate
+FROM Department JOIN Employee
+ON Department.Did=Employee.Did
+WHERE Dname=@Dname
+7.
+EXEC P_EP3
+8.
+EXEC p_ep3 @Dname='人事部'
+9.
+CREATE PROC p_ep4
+@BasePay INT 
+AS
+SELECT *
+FROM Employee
+WHERE BasePay>@BasePay
+10.
+EXEC p_ep4 @BasePay=8000
+11.
+CREATE PROC p_emp
+@Ename VARCHAR(10)
+AS
+SELECT *
+FROM Employee
+WHERE Ename LIKE '%'+@Ename+'%'
+12.
+EXEC p_emp @Ename='丽'
+13.
+EXEC sp_helptext p_emp
+14.
+ALTER PROC p_ep3
+@Dname VARCHAR(20)='财务部'
+WITH ENCRYPTION
+AS
+SELECT Department.Did,Dname,Eid,Ename,Esex,WorkDate
+FROM Department JOIN Employee
+ON Department.Did=Employee.Did
+WHERE Dname=@Dname
+15.
+EXEC sp_helptext p_ep3
+16.
+DROP PROC p_ep3
